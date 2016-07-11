@@ -14,18 +14,17 @@ namespace ZeroMQ_Test
         {
 
             ZContext context = new ZContext();
-            ZSocket socket = new ZSocket(context, ZSocketType.REP);
+            ZSocket socket = new ZSocket(context, ZSocketType.REQ);
 
-            socket.Bind("tcp://0.0.0.0:7777");
+            socket.Connect("tcp://127.0.0.1:7777");
             while (true)
             {
-
+                ZFrame frame = new ZFrame(Console.ReadLine());
+                socket.SendFrame(frame);
                 ZFrame recv_frame = socket.ReceiveFrame();
                 Console.WriteLine(recv_frame.ReadString());
-                ZFrame frame = new ZFrame("Hello world");
-                socket.SendFrame(frame);
             }
-            
+
         }
     }
 }
